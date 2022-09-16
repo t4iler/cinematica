@@ -1,4 +1,7 @@
+from unicodedata import name
 from rest_framework import serializers
+
+from movies.models import Movies
 
 from . import models as mod
 
@@ -41,9 +44,12 @@ class OrdersSerializer(serializers.ModelSerializer):
 
 class FeedbackSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    movie = serializers.ReadOnlyField(source='movies.name')
     class Meta:
         model = mod.Feedback
         fields = '__all__'
+
+    
 
 
 class BookingSerializer(serializers.ModelSerializer):

@@ -1,6 +1,6 @@
 from django.db import models
 from django.dispatch import receiver
-from movies.models import ShowTime, Rooms
+from movies.models import Movies, ShowTime, Rooms
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from account.send_email import send_notification
@@ -89,11 +89,12 @@ class Feedback(models.Model):
         (4, "4"),
         (5, "5"),
     ]
-    title = models.CharField(max_length=255, blank=True, null=True)
+    title = models.CharField(max_length=255, )
     content = models.CharField(max_length=255, blank=True, null=True)
-    rate = models.IntegerField(choices=rates, blank=True, null=True)
+    rate = models.IntegerField(choices=rates, )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    movie = models.ForeignKey(Movies, on_delete=models.CASCADE, related_name='movie')
+    
 
 class Booking(models.Model):
     show_time = models.ForeignKey(ShowTime, on_delete=models.CASCADE)

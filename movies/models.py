@@ -41,7 +41,7 @@ class Movies(models.Model):
     beginning_of_movie = models.DateTimeField(auto_now=False, blank=True, null=True)
     ending_of_movie = models.DateTimeField(auto_now=False, blank=True, null=True)
     category = models.ForeignKey(MoviesCategory, related_name='movies', on_delete=models.CASCADE)
-    price = models.IntegerField(blank=True, null=True)
+    price = models.IntegerField()
 
     def __str__(self):
         return self.name

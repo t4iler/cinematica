@@ -3,10 +3,14 @@ from rest_framework import generics
 from account.permissions import IsAdminOrReadOnly
 from . import serializers
 from . import models as mod
+from movies.models import  Movies
 
 class TicketsView(generics.ListCreateAPIView):
     serializer_class = serializers.TicketSerializer
     queryset = mod.Tickets.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)        # автоматически заполняет поле owner_id
 
 
 class TicketsDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -19,7 +23,7 @@ class OrdersView(generics.ListCreateAPIView):
     queryset = mod.Orders.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)        # автоматически заполняет поле owner_id
+        serializer.save(user=self.request.user)        # автоматически заполняет поле owner_id
 
 
 class OrdersDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -27,13 +31,17 @@ class OrdersDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = mod.Orders.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)        # автоматически заполняет поле owner_id
+        serializer.save(user=self.request.user)        # автоматически заполняет поле owner_id
 
 
 
 class FeedbackView(generics.ListCreateAPIView):
     serializer_class = serializers.FeedbackSerializer
     queryset = mod.Feedback.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)        # автоматически заполняет поле owner_id
+
 
 
 class FeedbackDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -46,6 +54,9 @@ class BookingView(generics.ListCreateAPIView):
     permission_classes = [IsAdminOrReadOnly, ]
     queryset = mod.Booking.objects.all()
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)        # автоматически заполняет поле owner_id
+        movie_id = self.kwargs['pk']
 
 
 class BookingDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -79,6 +90,9 @@ class TicketTypeDetailView(generics.RetrieveUpdateDestroyAPIView):
 class ClubCardView(generics.ListCreateAPIView):
     serializer_class = serializers.ClubCardSerializer
     queryset = mod.ClubCard.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class ClubCardDetailView(generics.RetrieveUpdateDestroyAPIView):

@@ -8,6 +8,7 @@ from . import serializers
 from . import models as mod
 from account.permissions import IsAdminOrReadOnly
 
+
 class CategoryView(ModelViewSet):
     queryset = mod.MoviesCategory.objects.all()
     permission_classes = (IsAdminOrReadOnly,)
@@ -16,8 +17,6 @@ class CategoryView(ModelViewSet):
         return serializers.CategoryListSerializer
     
     
-    
-
 class CinemasView(generics.ListCreateAPIView):
     serializer_class = serializers.CinemasListSerializer
     permission_classes = (IsAdminOrReadOnly,)
@@ -32,7 +31,8 @@ class CinemasDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class MovieView(generics.ListCreateAPIView):
     serializer_class = serializers.MovieSerializer
-    queryset = mod.Movies.objects.filter(ending_of_movie__gt=datetime.datetime.now())
+    permission_classes = (IsAdminOrReadOnly,)
+    queryset = mod.Movies.objects.all()
     filter_backends = (DjangoFilterBackend, SearchFilter,)
     filterset_fields = ('category', 'name',)
     search_fields = ('name',)

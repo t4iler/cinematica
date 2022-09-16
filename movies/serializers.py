@@ -43,25 +43,10 @@ class CinemasDetailSerializer(serializers.ModelSerializer):
 
 
 class MovieSerializer(serializers.ModelSerializer):
-
-    movie_status = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
+   
+ class Meta:
         model = Movies
         fields = '__all__'
-
-    @staticmethod
-    def get_movie_status(obj):
-
-        now = datetime.date.today()
-
-        if obj.beginning_of_movie <= now <= obj.ending_of_movie:
-            obj.movie_status = 'current'
-            return obj.movie_status
-
-        if obj.beginning_of_movie > now:
-            obj.movie_status = 'upcoming'
-            return obj.movie_status
 
 
 class ShowTimeSerializer(serializers.ModelSerializer):
